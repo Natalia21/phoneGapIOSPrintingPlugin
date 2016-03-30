@@ -101,8 +101,6 @@
 
         //<End communication with the printer>
         errorStatus = [printer closePrinter];
-        [printer release];
-        [builder release];
     }
 }
 
