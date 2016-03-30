@@ -52,12 +52,12 @@
         [EpsonIoFinder stop];
     
 
-        if ( [&printerList_ count] < 1 ) {
+        if ( [printerList_ count] < 1 ) {
             return;
         }
 
-        NSString deviceName = [[&printerList_ objectAtIndex:0] deviceName];
-        NSString printerName = [[&printerList_ objectAtIndex:0] printerName];
+        NSString* deviceName = [[printerList_ objectAtIndex:0] deviceName];
+        NSString* printerName = [[printerList_ objectAtIndex:0] printerName];
 
         //Initialize an EposBuilder class instance
         id builder = [[EposBuilder alloc] initWithPrinterModel: printerName Lang: EPOS_OC_MODEL_ANK];
