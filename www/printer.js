@@ -42,7 +42,7 @@ Printer.prototype = {
             callback.apply(scope || window, args);
         };
 
-        cordova.exec(callbackFn, null, 'Printer', 'isServiceAvailable', []);
+        cordova.exec(callbackFn, null, 'NPrinter', 'isServiceAvailable', []);
     },
 
     /**
@@ -66,7 +66,7 @@ Printer.prototype = {
             return;
         }
 
-        cordova.exec(null, null, 'Printer', 'print', [page, options]);
+        cordova.exec(null, null, 'NPrinter', 'print', [page, options]);
     }
 };
 

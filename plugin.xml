@@ -26,12 +26,12 @@
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="Printer">
-                <param name="ios-package" value="APPPrinter"/>
+                <param name="ios-package" value="NPrinter"/>
             </feature>
         </config-file>
 
-        <header-file src="src/ios/APPPrinter.h" />ß
-        <source-file src="src/ios/APPPrinter.m" />
+        <header-file src="src/ios/NPrint.h" />ß
+        <source-file src="src/ios/NPrint.m" />
     </platform>
 
     <!-- android -->
