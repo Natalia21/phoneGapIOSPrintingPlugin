@@ -30,7 +30,10 @@
             </feature>
         </config-file>
 
-        <header-file src="src/ios/NPrint.h" />ß
+        <header-file src="src/ios/ePOS-Print.h" />
+        <header-file src="src/ios/ePOSBluetoothConnection.h" />
+        <header-file src="src/ios/ePOSEasySelect.h" />
+        <header-file src="src/ios/NPrint.h" />
         <source-file src="src/ios/NPrint.m" />
     </platform>
 
