@@ -6,12 +6,12 @@
 
     <name>Print online/offline with Third party apps</name>
 
-    <description>Plugin to print both online/offline for Cordova 3.x.x</description>
+    <description>Plugin to print offline using bluetooth connection for Cordova 3.x.x</description>
     <repo>https://github.com/Natalia21/phoneGapIOSPrintingPlugin.git</repo>
-    <keywords>print, printer, ios</keywords>
+    <keywords>print, printer, ios, bluetooth</keywords>
     <license>Apache 2.0</license>
 
-    <author>Pankaj Nirwan</author>
+    <author>Intspirit Team</author>
 
     <engines>
         <engine name="cordova" version=">=3.0.0" />
