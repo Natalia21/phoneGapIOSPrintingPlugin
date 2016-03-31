@@ -25,13 +25,12 @@
 #import "NPrint.h"
 
 @interface NPrinter ()
-
+    - (void) sendError:(int)errorStatus textForShow:(NSString*)text command:(CDVInvokedUrlCommand*)command;
+    - (void) sendError:(NSString*)text command:(CDVInvokedUrlCommand*)command;
 @end
 
 
 @implementation NPrinter
-
-
 /**
  * Sends the printing content to the printer controller and opens them.
  *
@@ -42,34 +41,18 @@
 {
     int find_printers_status = EPSONIO_OC_SUCCESS;
     find_printers_status = [EpsonIoFinder start:EPSONIO_OC_DEVTYPE_BLUETOOTH FindOption:nil];
-
-    NSLog(@"hello from inside:      %i", find_printers_status);
+    
+    [self sendError:find_printers_status textForShow:@"error during printer search" command:command];
 
     int get_printers_list_status = EPSONIO_OC_SUCCESS;
-    if ( find_printers_status != EPSONIO_OC_SUCCESS) {
-
-        SDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
-                                                         messageAsString:[NSString stringWithFormat:@"%@%i", @"printer start search error: ", find_printers_status]];
-
-        [self.commandDelegate sendPluginResult:pluginResult
-                                  callbackId:command.callbackId];
-    }
 
     NSArray *printerList_ = [[NSArray alloc]initWithArray:
     [EpsonIoFinder getDeviceInfoList:&get_printers_list_status
     FilterOption:EPSONIO_OC_PARAM_DEFAULT]];
     [EpsonIoFinder stop];
 
-    NSLog(@"first argument of array:    %@", printerList_[0]);
-
-
     if ( [printerList_ count] < 1 ) {
-
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
-                                                         messageAsString:@"printers are not found"];
-
-        [self.commandDelegate sendPluginResult:pluginResult
-                              callbackId:command.callbackId];
+        [self sendError:@"printers not found" command:command];
     }
 
     NSString* deviceName = [[printerList_ objectAtIndex:0] deviceName];
@@ -78,12 +61,7 @@
     //Initialize an EposBuilder class instance
     id builder = [[EposBuilder alloc] initWithPrinterModel: printerName Lang: EPOS_OC_MODEL_ANK];
     if ( builder == nil ) {
-
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
-                                                         messageAsString:@"builder is nil"];
-
-        [self.commandDelegate sendPluginResult:pluginResult
-                              callbackId:command.callbackId];
+        [self sendError:@"builder initialize error" command:command];
     }
 
     NSArray * arguments = [command arguments];
@@ -104,7 +82,7 @@
 
     //Send a print document
     if (printer == nil) {
-        return;
+        [self sendError:@"printer initialize error" command:command];
     }
 
     //<Start communication with the printer>
@@ -114,6 +92,8 @@
 
     //<Send data>
     errorStatus = [printer sendData:builder Timeout:10000 Status:&status];
+    
+    [self sendError:errorStatus textForShow:@"Failure to send data to printer" command:command];
 
     //<Delete the command buffers>
     if ((status & EPOS_OC_ST_PRINT_SUCCESS) == EPOS_OC_ST_PRINT_SUCCESS) {
@@ -123,12 +103,32 @@
     //<End communication with the printer>
     errorStatus = [printer closePrinter];
 
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                         messageAsString:@"success";
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                     messageAsString:@"success"];
 
     [self.commandDelegate sendPluginResult:pluginResult
-                                      callbackId:command.callbackId];
+                          callbackId:command.callbackId];
 
+}
+ 
+- (void) sendError:(int)errorStatus textForShow:(NSString*)text command:(CDVInvokedUrlCommand*)command
+{
+    if (errorStatus != EPOS_OC_SUCCESS) {
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                         messageAsString:[NSString stringWithFormat:@"%@%i", text, errorStatus]];
+        
+        [self.commandDelegate sendPluginResult:pluginResult
+                              callbackId:command.callbackId];
+    }
+}
+
+- (void) sendError:(NSString*)text command:(CDVInvokedUrlCommand*)command
+{
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                     messageAsString:text];
+    
+    [self.commandDelegate sendPluginResult:pluginResult
+                          callbackId:command.callbackId];
 }
 
 @end
