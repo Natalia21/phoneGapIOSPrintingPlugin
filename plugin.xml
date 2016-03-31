@@ -14,7 +14,7 @@
     <author>Pankaj Nirwan</author>
 
     <engines>
-        <engine name="cordova" version=">=6.0.0" />
+        <engine name="cordova" version=">=3.0.0" />
     </engines>
 
     <!-- interface -->
@@ -30,10 +30,10 @@
             </feature>
         </config-file>
 
+        <source-file src="src/ios/libeposprint.a" />
         <header-file src="src/ios/ePOS-Print.h" />
         <header-file src="src/ios/NPrint.h" />
         <header-file src="src/ios/ePOSBluetoothConnection.h" />
-        <source-file src="src/ios/libeposprint.a" />
         <source-file src="src/ios/NPrint.m" />
 
     </platform>

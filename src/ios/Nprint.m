@@ -19,9 +19,9 @@
  under the License.
  */
 
+#import <Cordova/CDVAvailability.h>
 #import "ePOS-Print.h"
 #import "ePOSBluetoothConnection.h"
-#import <Cordova/CDVAvailability.h>
 #import "NPrint.h"
 
 @interface NPrinter ()
