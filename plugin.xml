@@ -30,6 +30,12 @@
             </feature>
         </config-file>
 
+        <config-file target="*-Info.plist" parent="UISupportedExternalAccessoryProtocols">
+            <array>
+                <string>com.epson.escpos</string>
+            </array>
+        </config-file>
+
         <header-file src="src/ios/ePOS-Print.h" />
         <header-file src="src/ios/ePOSBluetoothConnection.h" />
         <header-file src="src/ios/ePOSEasySelect.h" />
