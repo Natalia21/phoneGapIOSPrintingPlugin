@@ -47,7 +47,11 @@
 
     int get_printers_list_status = EPSONIO_OC_SUCCESS;
     if ( find_printers_status != EPSONIO_OC_SUCCESS) {
-        [self.commandDelegate sendPluginResult:[NSString stringWithFormat:@"%@%i", @"printer start search error: ", find_printers_status]
+
+        SDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                         messageAsString:[NSString stringWithFormat:@"%@%i", @"printer start search error: ", find_printers_status]];
+
+        [self.commandDelegate sendPluginResult:pluginResult
                                   callbackId:command.callbackId];
     }
 
@@ -60,7 +64,11 @@
 
 
     if ( [printerList_ count] < 1 ) {
-        [self.commandDelegate sendPluginResult:@"printers are not found"
+
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                         messageAsString:@"printers are not found"];
+
+        [self.commandDelegate sendPluginResult:pluginResult
                               callbackId:command.callbackId];
     }
 
@@ -70,7 +78,11 @@
     //Initialize an EposBuilder class instance
     id builder = [[EposBuilder alloc] initWithPrinterModel: printerName Lang: EPOS_OC_MODEL_ANK];
     if ( builder == nil ) {
-        [self.commandDelegate sendPluginResult:@"builder is nil"
+
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                         messageAsString:@"builder is nil"];
+
+        [self.commandDelegate sendPluginResult:pluginResult
                               callbackId:command.callbackId];
     }
 
@@ -111,7 +123,10 @@
     //<End communication with the printer>
     errorStatus = [printer closePrinter];
 
-    [self.commandDelegate sendPluginResult:@"success"
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                         messageAsString:@"success";
+
+    [self.commandDelegate sendPluginResult:pluginResult
                                       callbackId:command.callbackId];
 
 }
