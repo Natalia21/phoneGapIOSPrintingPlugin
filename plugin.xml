@@ -34,7 +34,10 @@
         <header-file src="src/ios/ePOSBluetoothConnection.h" />
         <header-file src="src/ios/ePOSEasySelect.h" />
         <header-file src="src/ios/NPrint.h" />
+        <source-file src="src/ios/libeposprint.a" />
+        <source-file src="src/ios/libeposeasyselect.a" />
         <source-file src="src/ios/NPrint.m" />
+
     </platform>
 
     <!-- android -->
