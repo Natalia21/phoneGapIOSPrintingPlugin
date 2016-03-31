@@ -21,7 +21,8 @@
 
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVPlugin.h>
-
+#import "ePOS-Print.h"
+#import "ePOSBluetoothConnection.h"
 
 @interface NPrinter : CDVPlugin
 
