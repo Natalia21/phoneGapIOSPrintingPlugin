@@ -54,7 +54,7 @@ NPrinter.prototype = {
      * @param {Object?} options
      *      Platform specific options
      */
-    print: function (content, options) {
+    print: function (content, options, successCallback, errorCallback) {
 
         alert('done');
         
@@ -66,7 +66,7 @@ NPrinter.prototype = {
             return;
         }
 
-        cordova.exec(null, null, 'NPrinter', 'print', [page, options]);
+        cordova.exec(successCallback, errorCallback, 'NPrinter', 'print', [page, options]);
     }
 };
 
