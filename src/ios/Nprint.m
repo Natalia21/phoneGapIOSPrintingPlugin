@@ -20,7 +20,7 @@
  */
 
 #import "ePOS-Print.h"
-#import "ePOSBluetoothConnection.h"
+// #import "ePOSBluetoothConnection.h"
 #import <Cordova/CDVAvailability.h>
 #import "NPrint.h"
 
@@ -41,7 +41,7 @@
 - (void) print:(CDVInvokedUrlCommand*)command
 {
     int find_printers_status = EPSONIO_OC_SUCCESS;
-    find_printers_status = [EpsonIoFinder start:EPSONIO_OC_DEVTYPE_BLUETOOTH FindOption:nil];
+    find_printers_status = [EpsonIoFinder start:EPSONIO_OC_DEVTYPE_TCP FindOption:nil];
 
     int get_printers_list_status = EPSONIO_OC_SUCCESS;
     if ( find_printers_status == EPSONIO_OC_SUCCESS) {
@@ -86,7 +86,7 @@
         }
 
         //<Start communication with the printer>
-        errorStatus = [printer openPrinter:EPSONIO_OC_DEVTYPE_BLUETOOTH
+        errorStatus = [printer openPrinter:EPSONIO_OC_DEVTYPE_TCP
         DeviceName:deviceName Enabled:EPOS_OC_TRUE
         Interval:EPOS_OC_PARAM_DEFAULT Timeout:EPOS_OC_PARAM_DEFAULT];
 
