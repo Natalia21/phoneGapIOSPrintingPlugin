@@ -43,12 +43,16 @@
     int find_printers_status = EPSONIO_OC_SUCCESS;
     find_printers_status = [EpsonIoFinder start:EPSONIO_OC_DEVTYPE_BLUETOOTH FindOption:nil];
 
+    NSlog(@"hello from inside:      %i", find_printers_status);
+
     int get_printers_list_status = EPSONIO_OC_SUCCESS;
     if ( find_printers_status == EPSONIO_OC_SUCCESS) {
         NSArray *printerList_ = [[NSArray alloc]initWithArray:
         [EpsonIoFinder getDeviceInfoList:&get_printers_list_status
         FilterOption:EPSONIO_OC_PARAM_DEFAULT]];
         [EpsonIoFinder stop];
+
+        NSlog(@"first argument of array:    %@", printerList_[0]);
     
 
         if ( [printerList_ count] < 1 ) {
