@@ -30,11 +30,19 @@
             </feature>
         </config-file>
 
-        <source-file src="src/ios/libeposprint.a" />
-        <header-file src="src/ios/ePOS-Print.h" />
-        <header-file src="src/ios/NPrint.h" />
-        <header-file src="src/ios/ePOSBluetoothConnection.h" />
+        <source-file src="src/ios/libeposprint.a" framework="true"/>
+        <header-file src="src/ios/ePOS-Print.h" framework="true"/>
+        <header-file src="src/ios/ePOSBluetoothConnection.h" framework="true"/>
+        <source-file src="src/ios/NPrint.h" />
         <source-file src="src/ios/NPrint.m" />
+
+        <framework src="ExternalAccessory.framework" />
+
+        <config-file target="*-Info.plist" parent="UISupportedExternalAccessoryProtocols">
+            <array>
+                <string>com.epson.escpos</string>
+            </array>
+        </config-file>
 
     </platform>
 
