@@ -18,14 +18,14 @@
     </engines>
 
     <!-- interface -->
-    <js-module src="www/printer.js" name="Printer">
+    <js-module src="www/printer.js" name="NPrinter">
         <clobbers target="plugin.printer" />
     </js-module>
 
     <!-- ios -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
-            <feature name="Printer">
+            <feature name="NPrinter">
                 <param name="ios-package" value="NPrinter"/>
             </feature>
         </config-file>
@@ -49,7 +49,7 @@
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="Printer">
+            <feature name="NPrinter">
                 <param name="android-package" value="nirwan.cordova.plugin.printer.Printer"/>
             </feature>
         </config-file>

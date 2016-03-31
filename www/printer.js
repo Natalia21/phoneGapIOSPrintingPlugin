@@ -19,11 +19,11 @@
     under the License.
 */
 
-var Printer = function () {
+var NPrinter = function () {
 
 };
 
-Printer.prototype = {
+NPrinter.prototype = {
     /**
      * Checks if the printer service is avaible (iOS)
      * or if a printing app is installed on the device (Android).
@@ -70,6 +70,6 @@ Printer.prototype = {
     }
 };
 
-var plugin = new Printer();
+var plugin = new NPrinter();
 
 module.exports = plugin;
