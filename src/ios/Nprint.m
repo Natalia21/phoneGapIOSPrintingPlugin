@@ -47,7 +47,7 @@
 
     int get_printers_list_status = EPSONIO_OC_SUCCESS;
     if ( find_printers_status != EPSONIO_OC_SUCCESS) {
-        [self.commandDelegate sendPluginResult:[@"printer start search error: %i", find_printers_status]
+        [self.commandDelegate sendPluginResult:[NSString sringWithFormat:@"%@%i", @"printer start search error: ", find_printers_status]
                                   callbackId:command.callbackId];
     }
 
