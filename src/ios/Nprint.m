@@ -4,6 +4,12 @@
 #import "ePOSBluetoothConnection.h"
 #import "NPrint.h"
 
+@interface MysObj : NSObject
+@property NSString *name;
+@property NSString *type;
+@end
+
+
 @interface NPrinter ()
     - (void) sendError:(int)errorStatus textForShow:(NSString*)text command:(CDVInvokedUrlCommand*)command;
     - (void) sendError:(NSString*)text command:(CDVInvokedUrlCommand*)command;
@@ -16,35 +22,71 @@
  * Sends the printing content to the printer controller and opens them.
  *
  */
-- (void) print:(CDVInvokedUrlCommand*)command
+
+- (void) getAvailablePrinters:(CDVInvokedUrlCommand*)command
 {
     int find_printers_status = EPSONIO_OC_SUCCESS;
     find_printers_status = [EpsonIoFinder start:EPSONIO_OC_DEVTYPE_BLUETOOTH FindOption:nil];
     
     [self sendError:find_printers_status textForShow:@"error during printer search" command:command];
-
+    
     int get_printers_list_status = EPSONIO_OC_SUCCESS;
-
-    NSArray *printerList_ = [[NSArray alloc]initWithArray:
-    [EpsonIoFinder getDeviceInfoList:&get_printers_list_status
-    FilterOption:EPSONIO_OC_PARAM_DEFAULT]];
+    
+//    NSArray *printerList_ = [[NSArray alloc]initWithArray:
+//                             [EpsonIoFinder getDeviceInfoList:&get_printers_list_status
+//                                                 FilterOption:EPSONIO_OC_PARAM_DEFAULT]];
+    
+    
+    
+    MysObj *printer1;
+    MysObj *printer2;
+    MysObj *printer3;
+    
+    printer1.name = @"printer raz";
+    printer2.name = @"printer dva";
+    printer3.name = @"printer tri";
+    printer1.type = @"type raz";
+    printer2.type = @"type dva";
+    printer3.type = @"type tri";
+    
+    NSMutableArray *printerList_ = [[NSMutableArray alloc] init];
+    [printerList_ addObject:printer1];
+    [printerList_ addObject:printer2];
+    [printerList_ addObject:printer3];
+    
+    
     [EpsonIoFinder stop];
-
+    
     if ( [printerList_ count] < 1 ) {
         [self sendError:@"printers not found" command:command];
+    } else {
+        
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                         messageAsArray:printerList_];
+        
+        [self.commandDelegate sendPluginResult:pluginResult
+                                    callbackId:command.callbackId];
     }
+}
 
-    NSString* deviceName = [[printerList_ objectAtIndex:0] deviceName];
-    NSString* printerName = [[printerList_ objectAtIndex:0] printerName];
+
+- (void) print:(CDVInvokedUrlCommand*)command
+{
+    
+    NSArray * arguments = [command arguments];
+    NSString *str = [arguments objectAtIndex:0];
+    EpsonIoDeviceInfo *chosenPrinter = [arguments objectAtIndex:1];
+    
+    
+
+    NSString* deviceName = [chosenPrinter deviceName];
+    NSString* printerName = [chosenPrinter printerName];
 
     //Initialize an EposBuilder class instance
     id builder = [[EposBuilder alloc] initWithPrinterModel: printerName Lang: EPOS_OC_MODEL_ANK];
     if ( builder == nil ) {
         [self sendError:@"builder initialize error" command:command];
     }
-
-    NSArray * arguments = [command arguments];
-    NSString *str = [arguments objectAtIndex:0];
 
     //Create a print document
     int errorStatus = EPOS_OC_SUCCESS;
@@ -57,7 +99,7 @@
 
     //Initialize an EposPrint class instance
     id printer = [[EposPrint alloc] init];
-    long status;
+    unsigned long status;
 
     //Send a print document
     if (printer == nil) {

@@ -20,11 +20,20 @@ cordova plugin rm intspirit.cordova.plugin.printer
 The plugin creates the object ```window.plugin.printer```
 
 ### Printing 
-You need to download/save html using fileTransfer plugin https://github.com/apache/cordova-plugin-file-transfer. Make sure you use it after deviceReady event is called.
 
 ** Below example uses print share app for printing files.
 ```javascript
-	window.plugin.printer.print('content', {}, function() {
+	window.plugin.printer.getAvailablePriner(successCallback, errorCallback);
+
+	function successCallback(printers) {
+		console.log('found printers: ', printers);
+	}
+
+	function errorCallback(error) {
+		console.log(error);
+	}
+
+	window.plugin.printer.print('content', chosenPrinter, function() {
 		console.log('success');
 	}, function() {
 		console.log('error');

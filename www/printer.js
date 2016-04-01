@@ -25,48 +25,47 @@ var NPrinter = function () {
 
 NPrinter.prototype = {
     /**
-     * Checks if the printer service is avaible (iOS)
-     * or if a printing app is installed on the device (Android).
+     * Finds and return available printers.
      *
-     * @param {Function} callback
-     *      A callback function
-     * @param {Object?} scope
-     *      The scope of the callback (default: window)
+     * @param {Function} successCallback
+     *      returns founded printers array
+     * @param {Function?} errorCallback
+     *      returns error message
      *
-     * @return {Boolean}
      */
-    isServiceAvailable: function (callback, scope) {
-        var callbackFn = function () {
-            var args = typeof arguments[0] == 'boolean' ? arguments : arguments[0];
+    getAvailablePrinters: function (successCallback, errorCallback) {
 
-            callback.apply(scope || window, args);
-        };
-
-        cordova.exec(callbackFn, null, 'NPrinter', 'isServiceAvailable', []);
+        cordova.exec(successCallback, errorCallback, 'NPrinter', 'getAvailablePrinters', []);
     },
 
     /**
      * Sends the content to the printer app or service.
      *
      * @param {String} content
-     *      HTML string or DOM node
-     *      if latter, innerHTML is used to get the contents
-     * @param {Object?} options
-     *      Platform specific options
+     *      HTML string 
+     * @param {EpsonIoDeviceInfo} printer
+     *      Chosen EpsonIoDeviceInfo-type printer that returns from 
+     *      getAvailablePrinters method
+     * @param {Function} successCallback
+     *      
+     * @param {Function} errorCallback
+     *      
      */
-    print: function (content, options, successCallback, errorCallback) {
-
-        alert('done');
+    print: function (content, printer, successCallback, errorCallback) {
         
-        var page    = content.innerHTML || content,
-            options = options || {};
+        var page = content.innerHTML || content;
 
         if (typeof page != 'string') {
             console.log('Print function requires an HTML string. Not an object');
             return;
         }
 
-        cordova.exec(successCallback, errorCallback, 'NPrinter', 'print', [page, options]);
+        if (!printer) {
+            console.log('Print function requires printer');
+            return;
+        }
+
+        cordova.exec(successCallback, errorCallback, 'NPrinter', 'print', [page, printer]);
     }
 };
 
